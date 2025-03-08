@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html"
 	"strings"
+	"unicode"
 )
 
 type Converter struct {
@@ -94,11 +95,15 @@ func (c *Converter) Convert() string {
 			if c.checkAhead("```") {
 				if c.peek() == "pre" {
 					c.pop()
+					c.pos += 4
 				} else {
 					c.push("pre")
-					c.skipLang()
+					c.pos += 3
+					for unicode.IsLetter(c.input[c.pos]) {
+						c.pos++
+					}
+					c.pos++
 				}
-				c.pos += 3
 			} else {
 				if c.peek() == "code" {
 					c.pop()
@@ -127,10 +132,6 @@ func (c *Converter) Convert() string {
 	}
 
 	return c.output.String()
-}
-
-// TODO
-func (c *Converter) skipLang() {
 }
 
 func (c *Converter) checkAhead(pattern string) bool {
