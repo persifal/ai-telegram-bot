@@ -75,7 +75,10 @@ func (c *Converter) Convert() string {
 			}
 
 		case '*':
-			if c.checkAhead("**") {
+			if c.peek() == "pre" {
+				c.write(curr)
+				c.pos++
+			} else if c.checkAhead("**") {
 				if c.peek() == "b" {
 					c.pop()
 				} else {
@@ -99,10 +102,9 @@ func (c *Converter) Convert() string {
 				} else {
 					c.push("pre")
 					c.pos += 3
-					for unicode.IsLetter(c.input[c.pos]) {
+					for unicode.IsLetter(c.input[c.pos]) || c.input[c.pos] == '\n' {
 						c.pos++
 					}
-					c.pos++
 				}
 			} else {
 				if c.peek() == "code" {

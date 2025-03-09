@@ -27,10 +27,10 @@ var (
 	repo            *InMemoryConvRepo
 )
 
-func init() {
+func initContext() {
 	config, err := NewConf()
 	if err != nil {
-		log.Fatalf("Unable to load conf.yaml, %v", err)
+		log.Fatalf("unable to load conf.yaml, %v", err)
 	}
 
 	tg = createTgClient(config)
@@ -52,6 +52,7 @@ func init() {
 }
 
 func main() {
+	initContext()
 	updateConfig := tgbotapi.NewUpdate(0)
 	updateConfig.Timeout = 60
 	updates := tg.GetUpdatesChan(updateConfig)

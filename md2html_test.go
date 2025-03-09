@@ -173,6 +173,11 @@ func TestConverter_ConvertSpecialCases(t *testing.T) {
 			"<b>bold <i>italic</i> text</b>",
 		},
 		{
+			"Escape in code block",
+			"```*Pointer```",
+			"<pre>*Pointer</pre>",
+		},
+		{
 			"Escape sequences",
 			"\\* \\` \\[ \\\\",
 			"* ` [ \\",
