@@ -214,8 +214,7 @@ func handleMessage(tgMsg *tgbotapi.Message) {
 }
 
 func reply(msg *tgbotapi.Message, content string) {
-	formatted := NewConverter(content).Convert()
-	slices := slice(formatted)
+	slices := slice(content)
 	messageID := msg.MessageID
 	var reply tgbotapi.MessageConfig
 	for _, v := range slices {
@@ -224,7 +223,9 @@ func reply(msg *tgbotapi.Message, content string) {
 		reply.ParseMode = "HTML"
 		sent, err := tg.Send(reply)
 		if err != nil {
-			log.Printf("telegram API is unavailable '%v'", err.Error())
+			log.Printf("unable to send message: '%v'", err.Error())
+			tg.Send(tgbotapi.NewMessage(msg.Chat.ID, err.Error()))
+            break
 		}
 
 		messageID = sent.MessageID

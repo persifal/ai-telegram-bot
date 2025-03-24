@@ -1,7 +1,14 @@
 debug: 
 
 anthropic:
-  system: 
+  system: |
+    Responses should be less or equal to 4096 symbols unless accuracy requires more. Format using:
+      - <b>bold</b>
+      - <i>italic</i>
+      - <a href="url">links</a>
+      - <code>inline code</code>
+      - <pre>code blocks</pre>
+      - <pre><code class="language-python">python code</code></pre>
   key: 
   proxy:
     enabled: 
