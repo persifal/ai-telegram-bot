@@ -52,6 +52,8 @@ func (r *replier) reply(ctx context.Context, text string) (*models.Message, erro
 			slog.Error(l)
 			retryStart <<= 1
 			err = nil
+		} else {
+			break
 		}
 	}
 

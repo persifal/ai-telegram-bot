@@ -31,7 +31,7 @@ func init() {
 func AdjustMdToTelegramFormat(input string) (string, error) {
 	var buf strings.Builder
 	if err := md.Convert([]byte(input), &buf); err != nil {
-		slog.Error("unable to convert input to tg format. err: %v. input: %v", err, input)
+		slog.Error("unable to convert input to tg format", slog.Any("error", err), slog.String("input", input))
 		return "", fmt.Errorf("unable to adjust input: %w", err)
 	}
 

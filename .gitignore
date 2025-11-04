@@ -29,3 +29,4 @@ ai-telegram-bot
 
 .idea/
 .claude/
+logs-*

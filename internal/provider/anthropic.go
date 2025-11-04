@@ -21,12 +21,12 @@ type AI interface {
 // TODO manage tokens sizing
 func (a *AnthropicProvider) Send(ctx context.Context, text string) (*anthropic.Message, error) {
 	messageParams := anthropic.MessageNewParams{
-		Model:     anthropic.F(anthropic.ModelClaude3_7SonnetLatest),
-		MaxTokens: anthropic.F(int64(4096)),
-		System:    anthropic.F([]anthropic.TextBlockParam{anthropic.NewTextBlock(a.systemPrompt)}),
-		Messages: anthropic.F([]anthropic.MessageParam{
+		Model:     anthropic.ModelClaudeSonnet4_5_20250929,
+		MaxTokens: 4096,
+		System:    []anthropic.TextBlockParam{{Text: a.systemPrompt}},
+		Messages: []anthropic.MessageParam{
 			anthropic.NewUserMessage(anthropic.NewTextBlock(text)),
-		}),
+		},
 	}
 
 	response, err := a.client.Messages.New(ctx, messageParams)
@@ -43,7 +43,7 @@ type AnthropicProvider struct {
 }
 
 func NewAnthropic(configs configs.Anthropic) AI {
-	var client *anthropic.Client
+	var client anthropic.Client
 	if configs.Proxy.Enabled {
 		proxyUrl, err := url.Parse(configs.Proxy.Url)
 		if err != nil {
@@ -67,7 +67,7 @@ func NewAnthropic(configs configs.Anthropic) AI {
 	slog.Info("current AI provider: Claude")
 
 	return &AnthropicProvider{
-		client,
+		&client,
 		configs.System,
 	}
 }

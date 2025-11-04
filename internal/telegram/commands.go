@@ -43,7 +43,7 @@ func endHandler(repo repository.DialogStorage) bot.HandlerFunc {
 	return func(ctx context.Context, b *bot.Bot, update *models.Update) {
 		replier := newReplier(b, update)
 		repo.Remove(update.Message.Chat.ID)
-		replier.reply(ctx, "conversation closed and context cleared")
+		replier.reply(ctx, "dialog is closed and context is cleared")
 	}
 }
 
@@ -51,10 +51,9 @@ func resetHandler(repo repository.DialogStorage) bot.HandlerFunc {
 	return func(ctx context.Context, b *bot.Bot, update *models.Update) {
 		replier := newReplier(b, update)
 		chatId := replier.getChatId()
-		ok := repo.Exists(chatId)
-		if ok {
+		if repo.Exists(chatId) {
 			repo.Clear(chatId)
-			replier.reply(ctx, "context cleared")
+			replier.reply(ctx, "dialog cleared")
 		} else {
 			replier.reply(ctx, "no conversation found")
 		}
