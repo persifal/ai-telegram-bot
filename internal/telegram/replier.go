@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
@@ -50,11 +51,11 @@ func (r *replier) reply(ctx context.Context, text string) (*models.Message, erro
 		if err != nil {
 			l := fmt.Sprintf("unable to send message to telegram. Retry with %d.\nerr: %v\nparams: %v", retryStart, err, sendMessageParams)
 			slog.Error(l)
-			retryStart <<= 1
-			err = nil
 		} else {
 			break
 		}
+		time.Sleep(time.Duration(retryStart) * time.Second)
+		retryStart <<= 1
 	}
 
 	return msg, err
