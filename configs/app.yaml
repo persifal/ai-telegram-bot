@@ -1,0 +1,16 @@
+logger:
+  enabled: true
+  file_path: logs
+  level: debug
+
+anthropic:
+  system:
+  key: 
+  proxy:
+    enabled: false
+    url: 
+
+bot:
+  key: 
+  whitelist:
+    - 

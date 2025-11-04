@@ -6,9 +6,9 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY ai-tg-bot  /app/
+COPY ai-telegram-bot /app/
 COPY conf.yaml /app/
 
-RUN chmod +x /app/ai-tg-bot
-CMD ["./ai-tg-bot"]
+RUN chmod +x /app/ai-telegram-bot
+CMD ["./ai-telegram-bot"]
 

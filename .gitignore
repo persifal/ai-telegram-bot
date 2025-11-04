@@ -25,4 +25,7 @@ go.work.sum
 .env
 
 *.backup
-ai-tg-bot
+ai-telegram-bot
+
+.idea/
+.claude/
